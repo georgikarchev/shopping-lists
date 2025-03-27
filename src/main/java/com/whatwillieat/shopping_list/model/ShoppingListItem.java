@@ -1,5 +1,6 @@
 package com.whatwillieat.shopping_list.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,9 +25,21 @@ public class ShoppingListItem {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("items")
     private ShoppingList shoppingList;
 
     private boolean isChecked;
 
     private boolean isDeleted;
+
+    @Override
+    public String toString() {
+        return "ShoppingListItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isChecked=" + isChecked +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }

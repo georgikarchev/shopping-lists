@@ -15,4 +15,6 @@ public interface ShoppingListRepository extends JpaRepository<ShoppingList, UUID
     void deleteByOwnerId(UUID ownerId);
 
     List<ShoppingList> findByOwnerIdAndIsDeletedFalse(UUID ownerId);
+
+    List<ShoppingList> findByOwnerIdOrderByUpdatedOnDesc(UUID ownerId);
 }

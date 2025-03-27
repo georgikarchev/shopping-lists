@@ -1,5 +1,6 @@
 package com.whatwillieat.shopping_list.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,7 @@ public class ShoppingList {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "shoppingList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("shoppingList")
     private List<ShoppingListItem> items;
 
     @PrePersist

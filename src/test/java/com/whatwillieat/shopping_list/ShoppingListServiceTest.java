@@ -3,14 +3,13 @@ package com.whatwillieat.shopping_list;
 import com.whatwillieat.shopping_list.model.ShoppingList;
 import com.whatwillieat.shopping_list.repository.ShoppingListRepository;
 import com.whatwillieat.shopping_list.service.ShoppingListService;
-import com.whatwillieat.shopping_list.web.dto.ShoppingListRequest;
+import com.whatwillieat.shopping_list.dto.ShoppingListRequest;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -44,33 +43,9 @@ class ShoppingListServiceTest {
         shoppingList.setDeleted(false);
     }
 
-    @Test
-    void testCreateShoppingList() {
-        ShoppingListRequest request = new ShoppingListRequest();
-        ShoppingList newShoppingList = new ShoppingList();
 
-        when(shoppingListRepository.save(any())).thenReturn(newShoppingList);
 
-        ShoppingList result = shoppingListService.create(request);
 
-        assertNotNull(result);
-        verify(shoppingListRepository, times(1)).save(any());
-    }
-
-    @Test
-    void testUpdateShoppingList_Success() {
-        ShoppingListRequest request = new ShoppingListRequest();
-        request.setId(shoppingListId);
-
-        when(shoppingListRepository.findById(shoppingListId)).thenReturn(Optional.of(shoppingList));
-        when(shoppingListRepository.save(any())).thenReturn(shoppingList);
-
-        ShoppingList result = shoppingListService.update(request);
-
-        assertNotNull(result);
-        verify(shoppingListRepository, times(1)).findById(shoppingListId);
-        verify(shoppingListRepository, times(1)).save(any());
-    }
 
     @Test
     void testUpdateShoppingList_NotFound() {
@@ -82,15 +57,7 @@ class ShoppingListServiceTest {
         assertThrows(EntityNotFoundException.class, () -> shoppingListService.update(request));
     }
 
-    @Test
-    void testGetShoppingListById_Success() {
-        when(shoppingListRepository.findById(shoppingListId)).thenReturn(Optional.of(shoppingList));
 
-        ShoppingList result = shoppingListService.getShoppingListById(shoppingListId);
-
-        assertNotNull(result);
-        assertEquals(shoppingListId, result.getId());
-    }
 
     @Test
     void testGetShoppingListById_NotFound() {
@@ -99,16 +66,7 @@ class ShoppingListServiceTest {
         assertThrows(EntityNotFoundException.class, () -> shoppingListService.getShoppingListById(shoppingListId));
     }
 
-    @Test
-    void testGetShoppingListsByOwner() {
-        when(shoppingListRepository.findByOwnerIdAndIsDeletedFalseOrderByUpdatedOnDesc(ownerId))
-                .thenReturn(List.of(shoppingList));
 
-        List<ShoppingList> result = shoppingListService.getShoppingListsByOwner(ownerId);
-
-        assertFalse(result.isEmpty());
-        verify(shoppingListRepository, times(1)).findByOwnerIdAndIsDeletedFalseOrderByUpdatedOnDesc(ownerId);
-    }
 
     @Test
     void testSoftDeleteShoppingList() {

@@ -1,25 +1,19 @@
-package com.whatwillieat.shopping_list.web.dto;
+package com.whatwillieat.shopping_list.dto;
 
-import lombok.Data;
+import com.whatwillieat.shopping_list.model.ShoppingList;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.UUID;
 
 @Data
-public class ShoppingListRequest {
-
+@Builder
+public class ShoppingListItemResponse {
     private UUID id;
-
-    @NotNull
-    @NotBlank
     private String name;
-
-    @NotBlank
     private String description;
-
-    @NotNull
-    private UUID ownerId;
-
+    private boolean isChecked;
     private boolean isDeleted;
 }

@@ -14,11 +14,13 @@ public class AuthenticationService {
     private static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY";
 
     public static Authentication getAuthentication(HttpServletRequest request) {
-        String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
-        if (apiKey == null || !apiKey.equals(AuthConfig.getAuthToken())) {
+        String requestApiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
+        String appApiKey = AuthConfig.getAuthToken();
+
+        if (requestApiKey == null || !requestApiKey.equals(appApiKey)) {
             throw new BadCredentialsException("Invalid API Key");
         }
 
-        return new AuthenticationMapper(apiKey, AuthorityUtils.NO_AUTHORITIES);
+        return new AuthenticationMapper(requestApiKey, AuthorityUtils.NO_AUTHORITIES);
     }
 }

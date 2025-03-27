@@ -1,9 +1,13 @@
-package com.whatwillieat.shopping_list.web;
+package com.whatwillieat.shopping_list.controller;
 
+import com.whatwillieat.shopping_list.dto.ShoppingListItemResponse;
+import com.whatwillieat.shopping_list.dto.ShoppingListResponse;
 import com.whatwillieat.shopping_list.model.ShoppingList;
+import com.whatwillieat.shopping_list.model.ShoppingListItem;
 import com.whatwillieat.shopping_list.service.ShoppingListItemService;
 import com.whatwillieat.shopping_list.service.ShoppingListService;
-import com.whatwillieat.shopping_list.web.dto.ShoppingListRequest;
+import com.whatwillieat.shopping_list.dto.ShoppingListItemRequest;
+import com.whatwillieat.shopping_list.dto.ShoppingListRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,43 +29,59 @@ public class ShoppingListController {
         this.shoppingListItemService = shoppingListItemService;
     }
 
+    // this is a test endpoint to check connection - it outputs 6090 which could be read as GOgO is one has too much imagination
     @GetMapping("/home")
     public String homeEndpoint() {
         return "6090";
     }
 
     @GetMapping("/owners/{ownerId}")
-    public ResponseEntity<List<ShoppingList>> getShoppingListsByOwner(@PathVariable UUID ownerId) {
+    public ResponseEntity<List<ShoppingListResponse>> getShoppingListsByOwner(@PathVariable UUID ownerId) {
         return ResponseEntity
                 .ok(shoppingListService
                 .getShoppingListsByOwner(ownerId));
     }
 
     @GetMapping("/{shoppingListId}")
-    public ResponseEntity<ShoppingList> getShoppingLisById(@PathVariable UUID shoppingListId) {
-        ShoppingList shoppingList = shoppingListService.getShoppingListById(shoppingListId);
-        return ResponseEntity.ok(shoppingList);
+    public ResponseEntity<ShoppingListResponse> getShoppingLisById(@PathVariable UUID shoppingListId) {
+        ShoppingListResponse shoppingListResponse = shoppingListService.getShoppingListById(shoppingListId);
+        return ResponseEntity.ok(shoppingListResponse);
     }
 
-    @DeleteMapping("/{listId}/items/{itemId}")
-    public ResponseEntity<Void> softDeleteItem(@PathVariable UUID listId, @PathVariable UUID itemId) {
-        shoppingListItemService.softDelete(listId, itemId);
+    @DeleteMapping("/{shoppingListId}/items/{itemId}")
+    public ResponseEntity<Void> softDeleteItem(@PathVariable UUID shoppingListId, @PathVariable UUID itemId) {
+        shoppingListItemService.softDelete(shoppingListId, itemId);
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("{shoppingListId}/items")
+    public ResponseEntity<ShoppingListItemResponse> createShoppingListItem(@PathVariable UUID shoppingListId, @RequestBody ShoppingListItemRequest shoppingListItemRequest) {
+        shoppingListItemRequest.setShoppingListId(shoppingListId);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(shoppingListItemService.save(shoppingListItemRequest));
+    }
+
     @PostMapping
-    public ResponseEntity<ShoppingList> createShoppingList(@RequestBody ShoppingListRequest shoppingListRequest) {
+    public ResponseEntity<ShoppingListResponse> createShoppingList(@RequestBody ShoppingListRequest shoppingListRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(shoppingListService.create(shoppingListRequest));
     }
 
     @PutMapping("/{shoppingListId}")
-    public ResponseEntity<ShoppingList> updateShoppingList(@PathVariable UUID shoppingListId, @RequestBody ShoppingListRequest shoppingListRequest) {
+    public ResponseEntity<ShoppingListResponse> updateShoppingList(@PathVariable UUID shoppingListId, @RequestBody ShoppingListRequest shoppingListRequest) {
         shoppingListRequest.setId(shoppingListId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(shoppingListService.update(shoppingListRequest));
+    }
+
+    @PutMapping("/{shoppingListId}/undo-delete")
+    public ResponseEntity<ShoppingListResponse> undoDeleteShoppingList(@PathVariable UUID shoppingListId) {
+        ShoppingListResponse response = shoppingListService.undoSoftDelete(shoppingListId);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{shoppingListId}")

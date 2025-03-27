@@ -1,24 +1,52 @@
 package com.whatwillieat.shopping_list.service;
 
+import com.whatwillieat.shopping_list.dto.ShoppingListItemResponse;
+import com.whatwillieat.shopping_list.model.ShoppingList;
 import com.whatwillieat.shopping_list.model.ShoppingListItem;
 import com.whatwillieat.shopping_list.repository.ShoppingListItemRepository;
+import com.whatwillieat.shopping_list.repository.ShoppingListRepository;
+import com.whatwillieat.shopping_list.dto.ShoppingListItemRequest;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ShoppingListItemService {
     private final ShoppingListItemRepository shoppingListItemRepository;
+    private final ShoppingListRepository shoppingListRepository;
 
     @Autowired
-    public ShoppingListItemService(ShoppingListItemRepository shoppingListItemRepository) {
+    public ShoppingListItemService(ShoppingListItemRepository shoppingListItemRepository, ShoppingListRepository shoppingListRepository) {
         this.shoppingListItemRepository = shoppingListItemRepository;
+        this.shoppingListRepository = shoppingListRepository;
     }
 
-    public ShoppingListItem save(ShoppingListItem shoppingListItem) {
-        return shoppingListItemRepository.save(shoppingListItem);
+    public ShoppingListItemResponse save(ShoppingListItemRequest shoppingListItemRequest) {
+
+        Optional<ShoppingList> shoppingList = shoppingListRepository.findById(shoppingListItemRequest.getShoppingListId());
+
+        if (shoppingList.isEmpty()) {
+            throw new EntityNotFoundException("Shopping list not found");
+        }
+
+        ShoppingListItem shoppingListItem = shoppingListItemRepository.save(ShoppingListItem.builder()
+                .name(shoppingListItemRequest.getName())
+                .description(shoppingListItemRequest.getDescription())
+                .shoppingList(shoppingList.get())
+                .isChecked(Optional.ofNullable(shoppingListItemRequest).map(ShoppingListItemRequest::isChecked).orElse(false))
+                .isDeleted(Optional.ofNullable(shoppingListItemRequest).map(ShoppingListItemRequest::isDeleted).orElse(false))
+                .build());
+
+        return ShoppingListItemResponse.builder()
+                .id(shoppingListItem.getId())
+                .name(shoppingListItem.getName())
+                .description(shoppingListItem.getDescription())
+                .isChecked(shoppingListItem.isChecked())
+                .isDeleted(shoppingListItem.isDeleted())
+                .build();
     }
 
     public void delete(UUID id) {
