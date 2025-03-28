@@ -1,6 +1,7 @@
 package com.whatwillieat.shopping_list.service;
 
 import com.whatwillieat.shopping_list.dto.ShoppingListItemResponse;
+import com.whatwillieat.shopping_list.dto.ShoppingListResponse;
 import com.whatwillieat.shopping_list.model.ShoppingList;
 import com.whatwillieat.shopping_list.model.ShoppingListItem;
 import com.whatwillieat.shopping_list.repository.ShoppingListItemRepository;
@@ -54,10 +55,25 @@ public class ShoppingListItemService {
         shoppingListItemRepository.delete(item);
     }
 
-    public void softDelete(UUID id) {
-        ShoppingListItem item = getItemOrThrow(id);
-        item.setDeleted(true);
+    public ShoppingListItemResponse undoSoftDelete(UUID shoppingListId, UUID shoppingListItemId) {
+        ShoppingListItem item = getItemOrThrow(shoppingListItemId);
+
+        // Validate that the item belongs to the correct list
+        UUID itemShoppingList = item.getShoppingList().getId();
+        if (!item.getShoppingList().getId().equals(shoppingListId)) {
+            throw new IllegalArgumentException("Item does not belong to the specified shopping list");
+        }
+
+        item.setDeleted(false);
         shoppingListItemRepository.save(item);
+
+        return ShoppingListItemResponse.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .isChecked(item.isChecked())
+                .isDeleted(item.isDeleted())
+                .build();
     }
 
     public void softDelete(UUID listId, UUID itemId) {

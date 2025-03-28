@@ -54,6 +54,12 @@ public class ShoppingListController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{shoppingListId}/items/{itemId}/undo-delete")
+    public ResponseEntity<ShoppingListItemResponse> undoDeleteShoppingListItem(@PathVariable UUID shoppingListId, @PathVariable UUID itemId) {
+        ShoppingListItemResponse response = shoppingListItemService.undoSoftDelete(shoppingListId, itemId);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("{shoppingListId}/items")
     public ResponseEntity<ShoppingListItemResponse> createShoppingListItem(@PathVariable UUID shoppingListId, @RequestBody ShoppingListItemRequest shoppingListItemRequest) {
         shoppingListItemRequest.setShoppingListId(shoppingListId);
