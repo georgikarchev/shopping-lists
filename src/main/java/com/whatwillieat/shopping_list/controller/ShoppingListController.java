@@ -60,6 +60,27 @@ public class ShoppingListController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("{shoppingListId}/items/{itemId}")
+    public ResponseEntity<ShoppingListItemResponse> updateShoppingListItem(@PathVariable UUID shoppingListId, @PathVariable UUID itemId, @RequestBody ShoppingListItemRequest shoppingListItemRequest) {
+        shoppingListItemRequest.setId(itemId);
+        shoppingListItemRequest.setShoppingListId(shoppingListId);
+
+        return ResponseEntity
+                .ok(shoppingListItemService.save(shoppingListItemRequest));
+    }
+
+    @PutMapping("{shoppingListId}/items/{itemId}/check")
+    public ResponseEntity<ShoppingListItemResponse> checkShoppingListItem(@PathVariable UUID itemId) {
+        return ResponseEntity
+                .ok(shoppingListItemService.check(itemId));
+    }
+
+    @PutMapping("{shoppingListId}/items/{itemId}/uncheck")
+    public ResponseEntity<ShoppingListItemResponse> uncheckShoppingListItem(@PathVariable UUID itemId) {
+        return ResponseEntity
+                .ok(shoppingListItemService.uncheck(itemId));
+    }
+
     @PostMapping("{shoppingListId}/items")
     public ResponseEntity<ShoppingListItemResponse> createShoppingListItem(@PathVariable UUID shoppingListId, @RequestBody ShoppingListItemRequest shoppingListItemRequest) {
         shoppingListItemRequest.setShoppingListId(shoppingListId);
@@ -80,8 +101,7 @@ public class ShoppingListController {
     public ResponseEntity<ShoppingListResponse> updateShoppingList(@PathVariable UUID shoppingListId, @RequestBody ShoppingListRequest shoppingListRequest) {
         shoppingListRequest.setId(shoppingListId);
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(shoppingListService.update(shoppingListRequest));
+                .ok(shoppingListService.update(shoppingListRequest));
     }
 
     @PutMapping("/{shoppingListId}/undo-delete")

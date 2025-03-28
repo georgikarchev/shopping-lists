@@ -89,16 +89,32 @@ public class ShoppingListItemService {
         shoppingListItemRepository.save(item);
     }
 
-    public void check(UUID id) {
+    public ShoppingListItemResponse check(UUID id) {
         ShoppingListItem item = getItemOrThrow(id);
         item.setChecked(true);
         shoppingListItemRepository.save(item);
+
+        return ShoppingListItemResponse.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .isChecked(item.isChecked())
+                .isDeleted(item.isDeleted())
+                .build();
     }
 
-    public void uncheck(UUID id) {
+    public ShoppingListItemResponse uncheck(UUID id) {
         ShoppingListItem item = getItemOrThrow(id);
-        item.setChecked(true);
+        item.setChecked(false);
         shoppingListItemRepository.save(item);
+
+        return ShoppingListItemResponse.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .isChecked(item.isChecked())
+                .isDeleted(item.isDeleted())
+                .build();
     }
 
     private ShoppingListItem getItemOrThrow(UUID id) {
