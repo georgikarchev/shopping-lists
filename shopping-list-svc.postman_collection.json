@@ -1,0 +1,425 @@
+{
+	"info": {
+		"_postman_id": "af4fa397-bfbb-4bcd-8c8c-2810575958ac",
+		"name": "shopping-list-svc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18892565"
+	},
+	"item": [
+		{
+			"name": "shopping-list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/home",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-list by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-list by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"shopping list 1-1\",\n    \"description\": \"added some description 5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/20eea2b4-cb12-4d76-ad97-11d740968074",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"20eea2b4-cb12-4d76-ad97-11d740968074"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-list item by id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/23cb38a1-b9fb-4e94-b579-bacb03e6fd50/items/ffb87d83-05ef-4f9b-901b-60afbc1a36f4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"23cb38a1-b9fb-4e94-b579-bacb03e6fd50",
+						"items",
+						"ffb87d83-05ef-4f9b-901b-60afbc1a36f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-list item undo delete by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79/items/1afc0ae4-d231-4447-9988-12d10574d31c/undo-delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79",
+						"items",
+						"1afc0ae4-d231-4447-9988-12d10574d31c",
+						"undo-delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-list",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/23cb38a1-b9fb-4e94-b579-bacb03e6fd50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"23cb38a1-b9fb-4e94-b579-bacb03e6fd50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping-lists by owner",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/owners/8f7f2165-b42c-4aef-bf18-5967e19bcaff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"owners",
+						"8f7f2165-b42c-4aef-bf18-5967e19bcaff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shopping lists of owner",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/owners/8f7f2165-b42c-4aef-bf18-5967e19bcaff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"owners",
+						"8f7f2165-b42c-4aef-bf18-5967e19bcaff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create shopping list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"shopping list 1-2\",\n    \"description\": null,\n    \"ownerId\": \"8f7f2165-b42c-4aef-bf18-5967e19bcaff\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create shopping list item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "sl-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jam\",\n    \"description\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update shopping list item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Space Jammmmmmmmmm\",\n    \"description\": \"bate bate\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79/items/1afc0ae4-d231-4447-9988-12d10574d31c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79",
+						"items",
+						"1afc0ae4-d231-4447-9988-12d10574d31c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update shopping list item check",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79/items/1afc0ae4-d231-4447-9988-12d10574d31c/check",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79",
+						"items",
+						"1afc0ae4-d231-4447-9988-12d10574d31c",
+						"check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update shopping list item uncheck",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-API-KEY",
+						"value": "shopping-list-api-key-123123",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8083/api/v1/shopping-lists/b7489fbc-f1d3-4657-acce-0dc68a62da79/items/1afc0ae4-d231-4447-9988-12d10574d31c/uncheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"shopping-lists",
+						"b7489fbc-f1d3-4657-acce-0dc68a62da79",
+						"items",
+						"1afc0ae4-d231-4447-9988-12d10574d31c",
+						"uncheck"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
